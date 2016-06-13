@@ -4,5 +4,5 @@ tests/
 node_modules/
 backup/
 
-*.iml
+github-issues.iml
 
