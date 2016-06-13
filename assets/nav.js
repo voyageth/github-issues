@@ -4,8 +4,8 @@ const storage = require('electron-json-storage')
 storage.get('activeSectionButtonId', function (err, id) {
     if (err) return console.error(err)
 
+    showMainContent()
     if (id && id.length) {
-        showMainContent()
         const section = document.getElementById(id)
         if (section) section.click()
     } else {
