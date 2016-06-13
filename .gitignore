@@ -1,0 +1,7 @@
+.idea/
+out/
+tests/
+node_modules/
+backup/
+
+*.iml

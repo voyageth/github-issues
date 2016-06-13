@@ -1,0 +1,57 @@
+<template class="task-template">
+    <section id="settings-section" class="section js-section u-category-windows">
+        <header class="section-header">
+            <div class="section-wrapper">
+                <h1>
+                    <svg class="section-icon">
+                        <use xlink:href="assets/img/icons.svg#icon-menu"></use>
+                    </svg>
+                    Settings
+                </h1>
+
+                <table>
+                    <tr>
+                        <td>
+                            <label>Github api address</label>
+                        </td>
+                        <td>
+                            <input id="set-github-address-input" type="text"/>
+                        </td>
+                        <td>
+                            <button id="set-github-address-button">save</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Github Personal Access Token</label>
+                        </td>
+                        <td>
+                            <input id="set-github-token-input" type="text"/>
+                        </td>
+                        <td>
+                            <button id="set-github-token-button">save</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Github User Id List(separator: ,)</label>
+                        </td>
+                        <td>
+                            <input id="set-github-user-id-list-input" type="text"/>
+                        </td>
+                        <td>
+                            <button id="set-github-user-id-list-button">save</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+
+
+
+        <script type="text/javascript">
+            require('./renderer-process/settings/settings-renderer-process')
+        </script>
+
+    </section>
+</template>

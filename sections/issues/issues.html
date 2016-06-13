@@ -1,0 +1,25 @@
+<template class="task-template">
+    <section id="issues-section" class="section js-section u-category-windows">
+        <header class="section-header">
+            <div class="section-wrapper">
+                <h1>
+                    <svg class="section-icon">
+                        <use xlink:href="assets/img/icons.svg#icon-menu"></use>
+                    </svg>
+                    Issue List
+                </h1>
+
+                <button id="get-user-id-list-button">Refresh User Id List</button>
+
+                <div id="get-issue-button-container">
+                </div>
+                <div id="issue-list">list</div>
+            </div>
+        </header>
+
+        <script type="text/javascript">
+            require('./renderer-process/issues/issues-renderer-process')
+        </script>
+
+    </section>
+</template>
