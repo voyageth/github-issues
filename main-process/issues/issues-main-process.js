@@ -33,12 +33,17 @@ ipc.on('get-issue-list-request', function (event, arg) {
         token: gitToken
     });
 
-    github.activity.getEventsForUser({
+    // TODO add organization config
+    // TODO get organization repository list
+    // TODO get repository contributor list
+    // TODO get event from org + repo -> filter by user (parallel)
+    github.activity.getEventsForRepo({
         headers: {
             "Authorization": "token " + gitToken
         },
-        user: arg
-    }, function(err, res) {
+        user: "band-ds",
+        repo: "stats"
+    }, function (err, res) {
         console.log(err)
         event.sender.send('get-issue-list-response', res)
     });
