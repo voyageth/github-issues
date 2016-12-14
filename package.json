@@ -57,7 +57,6 @@
     "electron-json-storage": "^2.0.0",
     "electron-shortcut-normalizer": "^1.0.0",
     "github": "latest",
-    "github-api": "^2.2.0",
     "glob": "^6.0.4",
     "highlight.js": "^9.3.0",
     "markdown": "^0.5.0",
