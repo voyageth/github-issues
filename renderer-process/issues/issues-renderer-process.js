@@ -82,12 +82,12 @@ ipc.on('get-user-id-list-response', function (event, arg) {
     // asyncMsgBtn.addEventListener('click', function () {
     //     ipc.send('get-issue-list-request', 'ping')
     // })
-})
+});
 
 document.getElementById('get-user-id-list-button').addEventListener('click', function () {
     console.log("send get-user-id-list-request event");
     ipc.send('get-user-id-list-request');
-})
+});
 
 ipc.on('get-issue-list-response', function (event, arg) {
     var result = "<div>";
@@ -165,14 +165,15 @@ ipc.on('get-issue-list-response', function (event, arg) {
     result += "</div>";
     document.getElementById('issue-list').innerHTML = result;
 
-    const links = document.getElementById('issue-list').querySelectorAll('a[href]')
+    const links = document.getElementById('issue-list').querySelectorAll('a[href]');
     Array.prototype.forEach.call(links, function (link) {
-        const url = link.getAttribute('href')
+        const url = link.getAttribute('href');
         // if (url.indexOf('http') === 0 || url.indexOf('https') === 0) {
         link.addEventListener('click', function (e) {
-            e.preventDefault()
+            e.preventDefault();
             shell.openExternal(url)
-        })
+        });
         // }
     })
-})
+});
+
