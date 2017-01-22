@@ -7,7 +7,7 @@ var configuration = require('./configuration');
 const BrowserWindow = electron.BrowserWindow
 const app = electron.app
 
-const debug = /--debug/.test(process.argv[2])
+const debug = true ///--debug/.test(process.argv[2])
 
 var mainWindow = null
 

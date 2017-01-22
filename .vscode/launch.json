@@ -13,7 +13,8 @@
             "runtimeExecutable": "electron.cmd",
             "env": {},
             "console": "internalConsole",
-            "sourceMaps": false
+            "sourceMaps": false,
+            "outDir": null
         }
     ]
 }

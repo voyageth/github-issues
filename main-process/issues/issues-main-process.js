@@ -12,7 +12,8 @@ var github = new GitHub({
     debug: true,
     protocol: "https",
     host: gitAddress,
-    pathPrefix: "/api/v3", // for some GHEs; none for GitHub
+    pathPrefix: "", // for some GHEs; none for GitHub
+    //pathPrefix: "/api/v3", // for some GHEs; none for GitHub
     timeout: 5000,
     headers: {
         "user-agent": "voyageth-GitHub-App" // GitHub is happy with a unique user agent
@@ -21,10 +22,12 @@ var github = new GitHub({
     includePreview: true // default: false; includes accept headers to allow use of stuff under preview period
 });
 
-github.authenticate({
-    type: "oauth",
-    token: gitToken
-});
+if(gitToken) {
+    github.authenticate({
+        type: "oauth",
+        token: gitToken
+    });
+}
 
 ipc.on('get-user-id-list-request', function (event, arg) {
     var githubUserIdList = configuration.readSettings('githubUserIdList');
