@@ -20,6 +20,16 @@ ipc.on('store-github-token-response', function (event, arg) {
     console.log(message);
 })
 
+const setGithubOrganizationButton = document.getElementById('set-github-organization-button');
+const setGithubOrganizationInput = document.getElementById('set-github-organization-input');
+setGithubOrganizationButton.addEventListener('click', function () {
+    ipc.send('store-github-organization-request', setGithubOrganizationInput.value)
+})
+ipc.on('store-github-organization-response', function (event, arg) {
+    const message = `Asynchronous message reply: ${arg}`;
+    console.log(message);
+})
+
 const setGithubUserIdListButton = document.getElementById('set-github-user-id-list-button');
 const setGithubUserIdListInput = document.getElementById('set-github-user-id-list-input');
 setGithubUserIdListButton.addEventListener('click', function () {
@@ -43,4 +53,5 @@ ipc.on('get-settings-response', function (event, arg) {
     setGithubAddressInput.value = arg.githubAddress;
     setGithubTokenInput.value = arg.githubToken;
     setGithubUserIdListInput.value = arg.githubUserIdList;
+    setGithubOrganizationInput.value = arg.githubOrganization;
 })

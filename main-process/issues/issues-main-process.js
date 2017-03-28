@@ -6,6 +6,7 @@ const GitHub = require('github');
 
 var gitToken = configuration.readSettings('githubToken');
 var gitAddress = configuration.readSettings('githubAddress');
+var gitOrg = configuration.readSettings('githubOrganization');
 
 var github = new GitHub({
     // optional
@@ -44,17 +45,8 @@ ipc.on('get-issue-list-request', function (event, arg) {
     // TODO get organization repository list
     // TODO get repository contributor list
     // TODO get event from org + repo -> filter by user (parallel)
-    github.activity.getEventsForRepo({
-        headers: {
-            "Authorization": "token " + gitToken
-        },
-        user: "band-ds",
-        repo: "stats"
-    }, function (err, res) {
-        console.log(err);
-        console.log(res);
-        event.sender.send('get-issue-list-response', res)
-    });
+
+    userId = arg;
 });
 
 
@@ -64,11 +56,11 @@ ipc.on('repos-getForOrg', function (event, arg) {
         headers: {
             "Authorization": "token " + gitToken
         },
-        org: "band-ds"
+        org: gitOrg
     }, function (err, res) {
         console.log(err);
         console.log(res);
-        event.sender.send('issues-getForRepo-response', res)
+        event.sender.send('repos-getForOrg-response', res)
     });
 });
 
@@ -78,11 +70,11 @@ ipc.on('orgs-getMembers', function (event, arg) {
         headers: {
             "Authorization": "token " + gitToken
         },
-        org: "band-ds"
+        org: gitOrg
     }, function (err, res) {
         console.log(err);
         console.log(res);
-        event.sender.send('issues-getForRepo-response', res)
+        event.sender.send('orgs-getMembers-response', res)
     });
 });
 
@@ -113,7 +105,7 @@ ipc.on('issues-getCommentsForRepo', function (event, arg) {
     }, function (err, res) {
         console.log(err);
         console.log(res);
-        event.sender.send('issues-getForRepo-response', res)
+        event.sender.send('issues-getCommentsForRepo-response', res)
     });
 });
 
