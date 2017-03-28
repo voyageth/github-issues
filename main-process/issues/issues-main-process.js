@@ -19,8 +19,7 @@ var github = new GitHub({
     headers: {
         "user-agent": "voyageth-GitHub-App" // GitHub is happy with a unique user agent
     },
-    followRedirects: true, // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
-    includePreview: true // default: false; includes accept headers to allow use of stuff under preview period
+    followRedirects: true // default: true; there's currently an issue with non-get redirects, so allow ability to disable follow-redirects
 });
 
 if(gitToken) {
@@ -47,6 +46,17 @@ ipc.on('get-issue-list-request', function (event, arg) {
     // TODO get event from org + repo -> filter by user (parallel)
 
     userId = arg;
+
+    github.repos.getForOrg({
+        headers: {
+            "Authorization": "token " + gitToken
+        },
+        org: gitOrg
+    }, function (err, res) {
+        console.log(err);
+        console.log(res);
+        event.sender.send('repos-getForOrg-response', res)
+    });
 });
 
 
