@@ -1,3 +1,4 @@
+const {app} = require('electron')
 const ipc = require('electron').ipcMain;
 var configuration = require('../../configuration');
 // const GitHubApi = require('github-api');
@@ -7,6 +8,10 @@ const GitHub = require('github');
 var gitToken = configuration.readSettings('githubToken');
 var gitAddress = configuration.readSettings('githubAddress');
 var gitOrg = configuration.readSettings('githubOrganization');
+
+var Datastore = require('nedb');
+var path = require('path');
+var db = new Datastore({ filename: path.join(app.getPath('appData'), 'something.db') });
 
 var github = new GitHub({
     // optional
