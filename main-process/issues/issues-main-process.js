@@ -9,9 +9,14 @@ var gitToken = configuration.readSettings('githubToken');
 var gitAddress = configuration.readSettings('githubAddress');
 var gitOrg = configuration.readSettings('githubOrganization');
 
-var Datastore = require('nedb');
-var path = require('path');
-var db = new Datastore({ filename: path.join(app.getPath('appData'), 'something.db') });
+const Datastore = require('nedb');
+const path = require('path');
+console.log("userDataPath : " + app.getPath('userData'));
+const repoDB = new Datastore({ filename: path.join(app.getPath('userData'), 'repo.db'), autoload: true });
+const postDB = new Datastore({ filename: path.join(app.getPath('userData'), 'post.db'), autoload: true });
+const commentDB = new Datastore({ filename: path.join(app.getPath('userData'), 'comment.db'), autoload: true });
+
+repoDB.insert({a:"test"}, function(err, doc){console.log(err);console.log(doc);});
 
 var github = new GitHub({
     // optional
@@ -45,38 +50,46 @@ ipc.on('get-user-id-list-request', function (event, arg) {
 
 
 ipc.on('get-issue-list-request', function (event, arg) {
-    // TODO add organization config
-    // TODO get organization repository list
-    // TODO get repository contributor list
-    // TODO get event from org + repo -> filter by user (parallel)
-
     userId = arg;
 
+    // get organization repository list
     github.repos.getForOrg({
         headers: {
             "Authorization": "token " + gitToken
         },
         org: gitOrg
     }, function (err, res) {
-        console.log(err);
-        console.log(res);
+        if (err) {
+            console.log("getForOrg error : " + err);
+        }
+
+        res.forEach(function(repo){
+            if (!repo || !(repo.id)) {
+                return;
+            }
+            
+            repoDB.findOne({id: repo.id}, function(err, getResult){
+                if (err) {
+                    console.log("repoDB.findOne error : " + err);
+                }
+                
+                if (!getResult && (getResult.updated_at < repo.updated_at)) {
+                    console.log("repo upsert! repo : " + JSON.stringify(repo));
+                    repoDB.update({id: repo.id}, repo, {upsert: true}, function(err, numReplaces){
+                        if (err) {
+                            console.log("repoDB.update error : " + err);
+                        }
+                        console.log("repoDB.update numReplaces : " + numReplaces);
+                    });
+                }
+            });
+        });
+
         event.sender.send('repos-getForOrg-response', res)
     });
-});
 
-
-// https://mikedeboer.github.io/node-github/#api-repos-getForOrg
-ipc.on('repos-getForOrg', function (event, arg) {
-    github.repos.getForOrg({
-        headers: {
-            "Authorization": "token " + gitToken
-        },
-        org: gitOrg
-    }, function (err, res) {
-        console.log(err);
-        console.log(res);
-        event.sender.send('repos-getForOrg-response', res)
-    });
+    // TODO get repository contributor list
+    // TODO get event from org + repo -> filter by user (parallel)
 });
 
 // https://mikedeboer.github.io/node-github/#api-orgs-getMembers
